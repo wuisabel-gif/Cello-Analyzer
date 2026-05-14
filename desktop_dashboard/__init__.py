@@ -1,0 +1,1 @@
+"""Cello Analyzer desktop dashboard."""
