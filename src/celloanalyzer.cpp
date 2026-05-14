@@ -1,8 +1,8 @@
 #include "Particle.h"
 #include <Wire.h>
-#define BLYNK_TEMPLATE_ID "TMPL_CELLO_ANALYZER"
-#define BLYNK_TEMPLATE_NAME "cello analyzer"
-#define BLYNK_AUTH_TOKEN "KQiO_lM4WwpVXSjoO49fXFKuHVoepqm5"
+#define BLYNK_TEMPLATE_ID "ADD YOUR OWN"
+#define BLYNK_TEMPLATE_NAME "ADD YOUR OWN"
+#define BLYNK_AUTH_TOKEN "ADD YOUR OWN"
 #include <BlynkSimpleParticle.h>
 #include "SparkFunMicroOLED.h"
 #include "DHT20.h"
