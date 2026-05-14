@@ -279,8 +279,6 @@ Run instructions are available in [desktop_dashboard/README.md](desktop_dashboar
   - main firmware
 - [project.properties](project.properties)
   - Particle project dependencies
-- [celloanalyzer-developer-documentation.docx](celloanalyzer-developer-documentation.docx)
-  - full developer documentation
 - [desktop_dashboard](desktop_dashboard)
   - PySide6 desktop dashboard application
 
