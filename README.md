@@ -303,7 +303,7 @@ Sizzle reel / product highlight video:
 Acknowledgements:
 
 - Professor Robert Parke and the TAC 348 teaching team
-- Lincoln, Fion, Ilce, and Matt for debugging and setup help
+- Lincoln, Fion, Ilce, and Matt for debugging and setup help through Spring 2026 semester
 - The Particle community PDM microphone discussion
 - The `Microphone_PDM` library repository
 
