@@ -15,7 +15,7 @@ The device has two main purposes:
 
 This project helps a musician quickly understand how loudly they are playing while also tracking whether the instrument is stored in a healthy environment.
 
-![Cello Analyzer OLED display](docs/images/oled-display.gif)
+![Cello Analyzer OLED display](docs/images/oled_display.gif)
 
 ## Features
 
