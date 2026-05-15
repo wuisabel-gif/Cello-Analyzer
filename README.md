@@ -300,7 +300,7 @@ Run instructions are available in [desktop_dashboard/README.md](desktop_dashboar
 
 Sizzle reel / product highlight video:
 
-- [YouTube Demo](https://youtu.be/3P5HkDhI3mo)
+<p><iframe width="560" height="315" src="https://www.youtube.com/embed/undefined" title="" frameBorder="0"   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"  allowFullScreen><br>Powered by <a href="https://youtubeembedcode.com">how to get embed code from youtube</a> and <a href="https://utaninkomst.se/">låna pengar utan inkomst</a></iframe></p>
 
 Acknowledgements:
 
