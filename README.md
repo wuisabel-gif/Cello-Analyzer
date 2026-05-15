@@ -2,7 +2,7 @@
 
 Performance and environment monitoring for cello practice and instrument care.
 
-`Photon 2` · `PDM Microphone` · `DHT20` · `MicroOLED` · `Initial State` · `Blynk`
+`Photon 2` · `PDM Microphone` · `DHT20` · `MicroOLED` · `Initial State` · `Blynk` · `PySide6`
 
 ## Overview
 
