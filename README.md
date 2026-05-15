@@ -195,6 +195,8 @@ The JSON payload is built in `publishInitialStateData()` and has this structure:
 
 The Blynk mobile app provides a phone-based dashboard for monitoring and controlling the Cello Analyzer remotely.
 
+![Cello Analyzer OLED display](docs/images/blynk_display.gif)
+
 ### Blynk datastreams
 
 | Datastream Name | Virtual Pin | Data Type | Suggested Range / Notes |
