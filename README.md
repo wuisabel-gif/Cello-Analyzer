@@ -51,8 +51,8 @@ This project helps a musician quickly understand how loudly they are playing whi
 
 Prototype views:
 
-![Cello Analyzer side view](docs/images/device-side.jpeg)
-![Cello Analyzer top view](docs/images/device-top.jpeg)
+<img src="docs/images/device-side.jpeg" alt="Cello Analyzer side view" width="320" />
+<img src="docs/images/device-top.jpeg" alt="Cello Analyzer top view" width="320" />
 
 ## Device Setup
 
