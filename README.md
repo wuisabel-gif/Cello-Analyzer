@@ -60,7 +60,7 @@ Prototype views:
 
 Connect the Photon 2, PDM microphone, DHT20 sensor, MicroOLED display, RGB LED, buzzer, switch, pushbutton, and LiPo battery according to your wiring diagram.
 
-![Cello Analyzer wiring diagram](docs/images/wiring-diagram.jpg)
+<img src="docs/images/wiring-diagram.jpg" alt="Cello Analyzer wiring diagram" width="720" />
 
 ### 2. Open the project in Particle Workbench
 
@@ -194,7 +194,7 @@ The JSON payload is built in `publishInitialStateData()` and has this structure:
 
 The Blynk mobile app provides a phone-based dashboard for monitoring and controlling the Cello Analyzer remotely.
 
-![Cello Analyzer BLYNK display](docs/images/blynk_display-2.gif)
+<img src="docs/images/blynk_display-2.gif" alt="Cello Analyzer BLYNK display" width="320" />
 
 ### Blynk datastreams
 
