@@ -167,6 +167,8 @@ The JSON payload is built in `publishInitialStateData()` and has this structure:
 
 ### Dashboard tiles used in Initial State
 
+![Cello Analyzer initial_state preview](docs/images/initialstatedemo.gif)
+
 | Tile Name | Tile Type | Details |
 |---|---|---|
 | Humidity | Gauge Tile | Displays current humidity with a visible safe-range region |
