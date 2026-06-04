@@ -15,7 +15,7 @@ The device has two main purposes:
 
 This project helps a musician quickly understand how loudly they are playing while also tracking whether the instrument is stored in a healthy environment.
 
-![Cello Analyzer OLED display](docs/images/oled_display.gif)
+<img src="docs/images/device-front.jpeg" alt="Cello Analyzer front view" width="420" />
 
 ## Features
 
@@ -52,7 +52,6 @@ This project helps a musician quickly understand how loudly they are playing whi
 Prototype views:
 
 <img src="docs/images/device-side.jpeg" alt="Cello Analyzer side view" width="320" />
-<img src="docs/images/device-front.jpeg" alt="Cello Analyzer front view" width="320" />
 <img src="docs/images/device-top.jpeg" alt="Cello Analyzer top view" width="320" />
 
 ## Device Setup
@@ -126,6 +125,8 @@ Paste those into [src/celloanalyzer.cpp](src/celloanalyzer.cpp), then configure 
 ## OLED Pages
 
 The OLED interface includes four pages:
+
+<img src="docs/images/oled-display.gif" alt="Cello Analyzer OLED display" width="260" />
 
 1. `Performance`
    - live waveform
@@ -265,7 +266,7 @@ Important timing values in the current firmware:
 
 A PySide6 desktop version of the project is included in [desktop_dashboard](desktop_dashboard).
 
-![Cello Analyzer desktop dashboard preview](docs/images/desktop-dashboard-preview.gif)
+<img src="docs/images/desktop-dashboard-preview.gif" alt="Cello Analyzer desktop dashboard preview" width="720" />
 
 It provides:
 

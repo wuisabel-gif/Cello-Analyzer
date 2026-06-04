@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cello Analyzer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(214, 168, 255, 0.16), transparent 28%),
+                radial-gradient(circle at top right, rgba(113, 89, 193, 0.12), transparent 22%),
+                linear-gradient(180deg, #fffdf8 0%, #f8f4fb 45%, #ffffff 100%);
+            color: #201729;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .nav-link {
+            position: relative;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-size: 0.76rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            left: 50%;
+            bottom: -5px;
+            transform: translateX(-50%);
+            background: #201729;
+            transition: width 0.28s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .glass-card {
+            border: 1px solid rgba(72, 43, 105, 0.12);
+            background: rgba(255, 255, 255, 0.84);
+            box-shadow: 0 24px 80px rgba(62, 33, 89, 0.08);
+            backdrop-filter: blur(14px);
+        }
+
+        .soft-panel {
+            border: 1px solid rgba(72, 43, 105, 0.1);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(250, 245, 255, 0.88) 100%);
+        }
+
+        .section-divider {
+            height: 1px;
+            width: 140px;
+            margin: 5rem auto;
+            background: linear-gradient(90deg, transparent, rgba(58, 32, 83, 0.4), transparent);
+        }
+
+        .table-shell {
+            overflow: hidden;
+            border-radius: 1.4rem;
+            border: 1px solid rgba(72, 43, 105, 0.12);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .table-shell table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-shell th,
+        .table-shell td {
+            padding: 1rem 1.1rem;
+            border-bottom: 1px solid rgba(72, 43, 105, 0.08);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .table-shell th {
+            font-size: 0.78rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #5b4d6d;
+            background: rgba(247, 242, 252, 0.9);
+        }
+
+        .table-shell tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="px-6 pt-12 pb-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col items-center gap-6">
+                <p class="text-[0.72rem] uppercase tracking-[0.42em] text-[#7f678d] text-center">Embedded Performance and Environment Monitoring</p>
+                <h1 class="text-4xl md:text-6xl font-light tracking-[0.18em] text-center uppercase">Cello Analyzer</h1>
+                <nav class="flex flex-wrap justify-center gap-x-8 gap-y-3 text-[#5a4b66]">
+                    <a href="#overview" class="nav-link active">Overview</a>
+                    <a href="#hardware" class="nav-link">Hardware</a>
+                    <a href="#oled" class="nav-link">OLED</a>
+                    <a href="#cloud" class="nav-link">Cloud</a>
+                    <a href="#desktop" class="nav-link">Desktop</a>
+                    <a href="#video" class="nav-link">Video</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 pb-24">
+        <section id="overview" class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center pt-6">
+            <div class="glass-card rounded-[2rem] p-8 md:p-10">
+                <p class="text-xs uppercase tracking-[0.32em] text-[#8b7199] mb-4">Project Summary</p>
+                <h2 class="text-3xl md:text-5xl font-light leading-tight mb-6">A Photon 2–based system for cello performance and instrument care.</h2>
+                <p class="text-lg text-[#4f425b] leading-relaxed mb-6">
+                    The Cello Analyzer combines a PDM microphone, DHT20 environmental sensor, SparkFun MicroOLED, RGB LED, buzzer, Particle Cloud, Initial State, Blynk, and a PySide6 desktop dashboard to monitor live playing dynamics and safe storage conditions in one device.
+                </p>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[#34293f]">
+                    <li class="soft-panel rounded-2xl px-4 py-3">Live waveform visualization</li>
+                    <li class="soft-panel rounded-2xl px-4 py-3">Dynamic labels from <code>pp</code> to <code>ff</code></li>
+                    <li class="soft-panel rounded-2xl px-4 py-3">Temperature and humidity tracking</li>
+                    <li class="soft-panel rounded-2xl px-4 py-3">Cloud, mobile, and desktop views</li>
+                </ul>
+            </div>
+
+            <div class="glass-card rounded-[2rem] p-5">
+                <a href="https://youtube.com/shorts/4luIpaYDjVw?feature=share" target="_blank" rel="noreferrer" class="block group">
+                    <div class="aspect-video overflow-hidden rounded-[1.5rem] relative bg-black">
+                        <img src="https://img.youtube.com/vi/4luIpaYDjVw/maxresdefault.jpg" alt="Cello Analyzer sizzle reel thumbnail" class="w-full h-full object-cover transition duration-500 group-hover:scale-[1.02]">
+                        <div class="absolute inset-0 bg-black/25 flex items-center justify-center">
+                            <div class="w-20 h-20 rounded-full border border-white/70 bg-white/15 backdrop-blur-sm flex items-center justify-center">
+                                <div class="w-0 h-0 border-t-[14px] border-t-transparent border-b-[14px] border-b-transparent border-l-[22px] border-l-white ml-1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <article class="soft-panel rounded-[1.75rem] p-6">
+                <p class="text-xs uppercase tracking-[0.26em] text-[#8b7199] mb-3">Performance</p>
+                <p class="text-[#41344d] leading-relaxed">Estimates sound level from PDM audio, maps it to musical dynamics, and draws the waveform on the OLED.</p>
+            </article>
+            <article class="soft-panel rounded-[1.75rem] p-6">
+                <p class="text-xs uppercase tracking-[0.26em] text-[#8b7199] mb-3">Environment</p>
+                <p class="text-[#41344d] leading-relaxed">Tracks temperature and humidity to determine whether the cello is in a safe, cautionary, or problematic environment.</p>
+            </article>
+            <article class="soft-panel rounded-[1.75rem] p-6">
+                <p class="text-xs uppercase tracking-[0.26em] text-[#8b7199] mb-3">Feedback</p>
+                <p class="text-[#41344d] leading-relaxed">Uses an RGB LED, buzzer, OLED pages, Initial State, Blynk, and a desktop dashboard for live feedback and logging.</p>
+            </article>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="hardware">
+            <div class="text-center mb-12">
+                <p class="text-xs uppercase tracking-[0.32em] text-[#8b7199] mb-3">Build</p>
+                <h2 class="text-3xl md:text-4xl font-light tracking-[0.12em] uppercase">Hardware and Setup</h2>
+            </div>
+
+            <div class="table-shell mb-10">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Pin</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>PDM Microphone</td><td><code>A0</code></td><td>Microphone clock signal</td></tr>
+                        <tr><td>PDM Microphone</td><td><code>A1</code></td><td>Microphone data input</td></tr>
+                        <tr><td>RGB LED Red</td><td><code>D2</code></td><td>Red channel for visual feedback</td></tr>
+                        <tr><td>RGB LED Green</td><td><code>D3</code></td><td>Green channel for visual feedback</td></tr>
+                        <tr><td>RGB LED Blue</td><td><code>D4</code></td><td>Blue channel for visual feedback</td></tr>
+                        <tr><td>Piezo Buzzer</td><td><code>A5</code></td><td>Audio feedback for dynamic transitions</td></tr>
+                        <tr><td>Enable Switch</td><td><code>D6</code></td><td>Turns the system on or off</td></tr>
+                        <tr><td>Pushbutton</td><td><code>D7</code></td><td>Cycles through OLED pages</td></tr>
+                        <tr><td>MicroOLED Display</td><td><code>I2C</code></td><td>Displays waveform, dynamics, and environment data</td></tr>
+                        <tr><td>DHT20 Sensor</td><td><code>I2C</code></td><td>Measures temperature and humidity</td></tr>
+                        <tr><td>LiPo Battery</td><td><code>JST battery connector</code></td><td>Portable power supply</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="glass-card rounded-[1.75rem] p-4">
+                    <img src="docs/images/device-front.jpeg" alt="Cello Analyzer front view" class="w-full rounded-[1.25rem] object-cover">
+                </div>
+                <div class="glass-card rounded-[1.75rem] p-4">
+                    <img src="docs/images/device-side.jpeg" alt="Cello Analyzer side view" class="w-full rounded-[1.25rem] object-cover">
+                </div>
+                <div class="glass-card rounded-[1.75rem] p-4">
+                    <img src="docs/images/device-top.jpeg" alt="Cello Analyzer top view" class="w-full rounded-[1.25rem] object-cover">
+                </div>
+            </div>
+
+            <div class="glass-card rounded-[2rem] p-5 md:p-7">
+                <p class="text-xs uppercase tracking-[0.32em] text-[#8b7199] mb-4">Wiring Diagram</p>
+                <img src="docs/images/wiring-diagram.jpg" alt="Cello Analyzer wiring diagram" class="w-full rounded-[1.5rem] object-cover">
+            </div>
+        </section>
+
+        <section id="oled" class="grid grid-cols-1 lg:grid-cols-[0.92fr_1.08fr] gap-10 items-center">
+            <div class="glass-card rounded-[2rem] p-8">
+                <p class="text-xs uppercase tracking-[0.32em] text-[#8b7199] mb-4">Display System</p>
+                <h2 class="text-3xl font-light tracking-[0.12em] uppercase mb-5">OLED Pages</h2>
+                <ol class="space-y-4 text-[#42354f]">
+                    <li><strong>Performance:</strong> live waveform, current dynamic, and current volume percentage</li>
+                    <li><strong>Dynamic Trend:</strong> percentage of time spent in <code>pp</code>, <code>p</code>, <code>mp</code>, <code>mf</code>, <code>f</code>, and <code>ff</code></li>
+                    <li><strong>Current Environment:</strong> current temperature and humidity</li>
+                    <li><strong>Environment History:</strong> temperature high/low and humidity high/low</li>
+                </ol>
+                <p class="text-[#5d506a] mt-6 leading-relaxed">
+                    The waveform is drawn on the first page by <code>drawPerformanceScreen()</code> in <code>src/celloanalyzer.cpp</code>.
+                </p>
+            </div>
+
+            <div class="glass-card rounded-[2rem] p-6 flex items-center justify-center">
+                <img src="docs/images/oled-display.gif" alt="Cello Analyzer OLED display" class="max-w-full rounded-[1.25rem]">
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="cloud">
+            <div class="text-center mb-12">
+                <p class="text-xs uppercase tracking-[0.32em] text-[#8b7199] mb-3">Connectivity</p>
+                <h2 class="text-3xl md:text-4xl font-light tracking-[0.12em] uppercase">Cloud, Initial State, and Blynk</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="glass-card rounded-[2rem] p-8">
+                    <p class="text-xs uppercase tracking-[0.26em] text-[#8b7199] mb-4">Initial State Event</p>
+                    <p class="text-[#3e3249] mb-4">The project publishes the event <code>Cello_Analyzer</code> every <code>2500 ms</code> using <code>millis()</code>-based timers.</p>
+<pre class="bg-[#201629] text-[#f6ecff] rounded-[1.4rem] p-5 overflow-x-auto text-sm leading-7"><code>[
+  {"key":"volume","value":42},
+  {"key":"temperature","value":23.2},
+  {"key":"humidity","value":55.4},
+  {"key":"dynamic","value":"pp"}
+]</code></pre>
+                </div>
+
+                <div class="glass-card rounded-[2rem] p-8">
+                    <p class="text-xs uppercase tracking-[0.26em] text-[#8b7199] mb-4">Cloud Variables</p>
+                    <div class="grid grid-cols-2 gap-3 text-[#3e3249]">
+                        <div class="soft-panel rounded-xl px-4 py-3"><code>mode</code></div>
+                        <div class="soft-panel rounded-xl px-4 py-3"><code>dynamic</code></div>
+                        <div class="soft-panel rounded-xl px-4 py-3"><code>volume</code></div>
+                        <div class="soft-panel rounded-xl px-4 py-3"><code>raw</code></div>
+                        <div class="soft-panel rounded-xl px-4 py-3"><code>temp</code></div>
+                        <div class="soft-panel rounded-xl px-4 py-3"><code>hum</code></div>
+                        <div class="soft-panel rounded-xl px-4 py-3"><code>alert</code></div>
+                        <div class="soft-panel rounded-xl px-4 py-3"><code>celloHealth</code></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-shell mb-8">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Initial State Tile</th>
+                            <th>Type</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Humidity</td><td>Gauge Tile</td><td>Displays current humidity with a visible safe-range region</td></tr>
+                        <tr><td>Temperature</td><td>Gauge Tile</td><td>Displays current temperature in Celsius using a thermometer-style visualization</td></tr>
+                        <tr><td>Volume</td><td>Line Graph Tile</td><td>Displays historical trend of volume percentage over time</td></tr>
+                        <tr><td>Current Dynamic</td><td>Summary Tile</td><td>Displays the current dynamic label such as <code>pp</code>, <code>mp</code>, or <code>f</code></td></tr>
+                        <tr><td>Most Frequent Dynamic</td><td>Summary Tile</td><td>Displays the most commonly occurring dynamic over recorded history</td></tr>
+                        <tr><td>Humidity</td><td>Line Graph Tile</td><td>Displays historical humidity trend over time</td></tr>
+                        <tr><td>Temperature</td><td>Line Graph Tile</td><td>Displays historical temperature trend over time</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-shell">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Blynk Datastream</th>
+                            <th>Virtual Pin</th>
+                            <th>Data Type</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Switch Mode</td><td><code>V0</code></td><td>Integer</td><td>Virtual page-change button</td></tr>
+                        <tr><td>Current Mode</td><td><code>V1</code></td><td>String</td><td>Displays current OLED mode</td></tr>
+                        <tr><td>Dynamic</td><td><code>V2</code></td><td>String</td><td>Displays current musical dynamic</td></tr>
+                        <tr><td>Current Volume</td><td><code>V3</code></td><td>Integer</td><td>Displays current volume percentage</td></tr>
+                        <tr><td>Current Temperature</td><td><code>V4</code></td><td>String</td><td>Displays current temperature</td></tr>
+                        <tr><td>Current Humidity</td><td><code>V5</code></td><td>String</td><td>Displays current humidity</td></tr>
+                        <tr><td>Current Health</td><td><code>V6</code></td><td>String</td><td>Displays cello health message</td></tr>
+                        <tr><td>Current Environment</td><td><code>V7</code></td><td>String</td><td>Displays environment status</td></tr>
+                        <tr><td>Dynamic History</td><td><code>V8</code></td><td>String</td><td>Displays recent dynamic history summary</td></tr>
+                        <tr><td>Temp History</td><td><code>V9</code></td><td>String</td><td>Displays temperature high/low summary</td></tr>
+                        <tr><td>Humidity History</td><td><code>V10</code></td><td>String</td><td>Displays humidity high/low summary</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="desktop" class="grid grid-cols-1 lg:grid-cols-[1.02fr_0.98fr] gap-10 items-center">
+            <div class="glass-card rounded-[2rem] p-8">
+                <p class="text-xs uppercase tracking-[0.32em] text-[#8b7199] mb-4">PySide6 App</p>
+                <h2 class="text-3xl font-light tracking-[0.12em] uppercase mb-5">Desktop Dashboard</h2>
+                <p class="text-[#45384f] leading-relaxed mb-6">
+                    A PySide6 desktop version of the project is included in the repository and mirrors the embedded system with live waveform visualization, environmental monitoring, and an OLED-style preview panel.
+                </p>
+                <ul class="space-y-3 text-[#3d3048]">
+                    <li>Live waveform visualization</li>
+                    <li>Current volume and dynamic display</li>
+                    <li>Temperature and humidity monitoring</li>
+                    <li>Mock data mode for UI testing</li>
+                    <li>Serial data source scaffolding for Photon 2 integration</li>
+                    <li>Session recording and CSV export</li>
+                </ul>
+            </div>
+
+            <div class="glass-card rounded-[2rem] p-5">
+                <img src="docs/images/desktop-dashboard-preview.gif" alt="Cello Analyzer desktop dashboard preview" class="w-full rounded-[1.4rem] object-cover">
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="video">
+            <div class="text-center mb-10">
+                <p class="text-xs uppercase tracking-[0.32em] text-[#8b7199] mb-3">Portfolio Video</p>
+                <h2 class="text-3xl md:text-4xl font-light tracking-[0.12em] uppercase">Project Demo</h2>
+            </div>
+
+            <div class="glass-card rounded-[2rem] p-5 md:p-7 mb-6">
+                <a href="https://youtu.be/3P5HkDhI3mo" target="_blank" rel="noreferrer" class="block group">
+                    <div class="aspect-video overflow-hidden rounded-[1.5rem] relative bg-black">
+                        <img src="https://img.youtube.com/vi/3P5HkDhI3mo/maxresdefault.jpg" alt="Cello Analyzer technical walkthrough thumbnail" class="w-full h-full object-cover transition duration-500 group-hover:scale-[1.02]">
+                        <div class="absolute inset-0 bg-black/25 flex items-center justify-center">
+                            <div class="w-20 h-20 rounded-full border border-white/70 bg-white/15 backdrop-blur-sm flex items-center justify-center">
+                                <div class="w-0 h-0 border-t-[14px] border-t-transparent border-b-[14px] border-b-transparent border-l-[22px] border-l-white ml-1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="soft-panel rounded-[1.75rem] p-6 text-center text-[#493d55]">
+                <p class="mb-3">
+                    Sizzle reel:
+                    <a href="https://youtube.com/shorts/4luIpaYDjVw?feature=share" target="_blank" rel="noreferrer" class="underline underline-offset-4">click here</a>
+                    &nbsp;|&nbsp;
+                    Technical walkthrough:
+                    <a href="https://youtu.be/3P5HkDhI3mo" target="_blank" rel="noreferrer" class="underline underline-offset-4">click here</a>
+                </p>
+                <p>Copyright (c) 2026 wuisabel-gif. All rights reserved.</p>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>

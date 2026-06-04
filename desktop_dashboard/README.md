@@ -2,7 +2,7 @@
 
 PySide6 desktop application for monitoring a Photon 2 based Cello Analyzer in real time.
 
-![Cello Analyzer desktop dashboard preview](assets/desktop-dashboard-preview.gif)
+<img src="assets/desktop-dashboard-preview.gif" alt="Cello Analyzer desktop dashboard preview" width="720" />
 
 ## Features
 
