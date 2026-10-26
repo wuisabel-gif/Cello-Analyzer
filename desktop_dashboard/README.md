@@ -94,3 +94,18 @@ QT_QPA_PLATFORM=offscreen .venv/bin/python -m unittest discover -s tests -v
 
 The UI test saves `practice-preview.png` in the repository root for visual QA.
 Audio remains local; the practice window has no recording or network features.
+
+## Local practice cues
+
+The observation panel uses deterministic rules, not an AI model or an expert
+teacher. It reports the longest continuous supported trend interval, change
+between 200 ms end-window medians, and the middle-80% span of short variation.
+It withholds observations below 60% voiced coverage, on register-sized pitch
+changes, or without one continuous second of trend. The periodicity threshold
+and these gates are heuristic; octave mistakes can still pass on real audio.
+File-duration differences include silence and are not musical timing judgments.
+Listen back in your own player; this increment does not provide playback.
+
+Before drawing musical conclusions, compare measurements against a trusted
+reference and test representative real cello recordings locally. Synthetic
+validation alone cannot prove pitch, vibrato, intonation or teaching accuracy.
