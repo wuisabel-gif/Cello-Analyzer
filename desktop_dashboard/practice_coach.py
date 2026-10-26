@@ -20,7 +20,7 @@ def observation(take):
     change = np.median(trend[-10:]) - np.median(trend[:10])
     residual = take.variation[interval]
     spread = np.percentile(residual, 90)-np.percentile(residual, 10)
-    return (f'{take.time[first]:.2f}–{take.time[last]:.2f} s: estimated trend changed {change:+.1f} cents '
+    return (f'{take.time[first]+take.source_start:.2f}–{take.time[last]+take.source_start:.2f} s (source time): estimated trend changed {change:+.1f} cents '
             f'(end-window medians); short variation had a middle-80% span of {spread:.1f} cents. '
             f'{coverage:.0%} of frames passed the periodicity gate. '
             'Listen back to this interval and repeat with the same setup. '
@@ -31,6 +31,6 @@ def comparison(takes):
     if len(takes) != 2 or any(t is None for t in takes):
         return 'Import both takes to compare file durations.'
     difference = takes[1].duration-takes[0].duration
-    return (f'File timing only: take 2 is {abs(difference):.2f} s '
+    return (f'Analyzed duration only: take 2 is {abs(difference):.2f} s '
             f'{"longer" if difference >= 0 else "shorter"} than take 1. '
             'This includes leading/trailing silence; it does not measure musical timing.')

@@ -10,6 +10,7 @@ class Audio:
     samples: np.ndarray
     sample_rate: int
     name: str
+    source_start: float = 0.
 
     @property
     def duration(self):

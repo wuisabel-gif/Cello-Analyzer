@@ -1,7 +1,7 @@
 import numpy as np
 from PySide6.QtCore import QRectF, QPointF, QThread, Signal, Qt
 from PySide6.QtGui import QPainter, QPen, QPainterPath
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFileDialog, QTextEdit
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QInputDialog, QTextEdit, QDoubleSpinBox
 from desktop_dashboard.practice import analyze
 from desktop_dashboard.practice_coach import observation, comparison
 from desktop_dashboard.ui.widgets import ACCENT, ACCENT_ALT, TEXT, MUTED, SURFACE_ELEVATED
@@ -35,7 +35,7 @@ class ComparisonChart(QWidget):
             low, high = low-1, high+1
         p.drawText(4, 48, f'{high:.0f}')
         p.drawText(4, int(rect.bottom()), f'{low:.0f}')
-        p.drawText(65, self.height()-7, f'0 s • File-start axis • end {duration:.2f} s')
+        p.drawText(65, self.height()-7, f'0 s • Excerpt axis • end {duration:.2f} s')
         for slot, take in self.takes:
             color = [ACCENT, ACCENT_ALT][slot]
             path, connected = QPainterPath(), False
@@ -56,13 +56,14 @@ class ComparisonChart(QWidget):
 class AnalysisWorker(QThread):
     result = Signal(int, object, str)
 
-    def __init__(self, index, path, parent):
+    def __init__(self, index, path, parent, start=0., duration=30.):
         super().__init__(parent)
         self.index, self.path = index, path
+        self.start_seconds, self.duration_seconds = start, duration
 
     def run(self):
         try:
-            self.result.emit(self.index, analyze(self.path), '')
+            self.result.emit(self.index, analyze(self.path, self.start_seconds, self.duration_seconds), '')
         except (OSError, ValueError) as exc:
             self.result.emit(self.index, None, str(exc))
 
@@ -79,9 +80,23 @@ class PracticeWindow(QWidget):
         title = QLabel('Sustained note • compare two local takes')
         title.setStyleSheet('font-size: 24px; font-weight: bold')
         layout.addWidget(title)
-        note = QLabel('Offline • 16-bit PCM WAV • max 60 s / 32 MB\nPitch relative to A3 (220 Hz), not a target-note grade. Relative RMS is not SPL.\nFile starts are aligned; no score or onset alignment. Short variation is not a validated vibrato assessment.')
+        note = QLabel('Offline • WAV ≤60 s / 32 MB • MOV audio excerpt ≤60 s via installed FFmpeg\nPitch relative to A3 (220 Hz), not a target-note grade. Relative RMS is not SPL.\nPlots start at each excerpt’s zero; cues use source timestamps. No score or onset alignment. Short variation is not a validated vibrato assessment.')
         note.setWordWrap(True)
         layout.addWidget(note)
+        excerpt_controls = QHBoxLayout()
+        self.excerpt_start = QDoubleSpinBox()
+        self.excerpt_start.setRange(0, 86400)
+        self.excerpt_start.setDecimals(2)
+        self.excerpt_start.setSuffix(' s')
+        self.excerpt_duration = QDoubleSpinBox()
+        self.excerpt_duration.setRange(.1, 60)
+        self.excerpt_duration.setValue(30)
+        self.excerpt_duration.setDecimals(2)
+        self.excerpt_duration.setSuffix(' s')
+        for control in (QLabel('MOV only • start'), self.excerpt_start,
+                        QLabel('duration (max 60 s)'), self.excerpt_duration):
+            excerpt_controls.addWidget(control)
+        layout.addLayout(excerpt_controls)
         buttons = QHBoxLayout()
         for index in range(2):
             button = QPushButton(f'Import take {index+1}')
@@ -104,15 +119,16 @@ class PracticeWindow(QWidget):
         self.observations.setMaximumHeight(180)
         self.observations.setPlaceholderText("Local practice cues appear after import; no external AI is used.")
         layout.addWidget(self.observations)
-        self.setStyleSheet('QWidget {background:#171717;color:#f3f1f8} QPushButton {background:#574064;padding:10px} QTextEdit {background:#232323}')
+        self.setStyleSheet('QWidget {background:#171717;color:#f3f1f8} QPushButton {background:#574064;padding:10px} QTextEdit {background:#232323} QDoubleSpinBox, QDoubleSpinBox QLineEdit {background-color:#232323;color:#f3f1f8;padding:6px}')
 
     def choose(self, index):
-        path, _ = QFileDialog.getOpenFileName(self, 'Import local WAV', '', 'WAV (*.wav)')
-        if path:
+        path, accepted = QInputDialog.getText(self, 'Import local WAV or MOV audio', 'Paste a local .wav or .mov path (supports ~/):')
+        if accepted and path.strip():
+            path = path.strip()
             for button in self.buttons:
                 button.setEnabled(False)
-            self.observations.setPlainText('Analyzing local WAV…')
-            self.worker = AnalysisWorker(index, path, self)
+            self.observations.setPlainText('Analyzing local audio excerpt…')
+            self.worker = AnalysisWorker(index, path, self, self.excerpt_start.value(), self.excerpt_duration.value())
             self.worker.result.connect(self._receive)
             self.worker.finished.connect(self._finished)
             self.worker.start()
@@ -136,9 +152,9 @@ class PracticeWindow(QWidget):
         self._set_take(index, take)
         return True
 
-    def import_take(self, index, path):
+    def import_take(self, index, path, start=0., duration=30.):
         try:
-            take = analyze(path)
+            take = analyze(path, start, duration)
         except (OSError, ValueError) as exc:
             self.observations.setPlainText(f'Import failed: {exc}\nPrevious takes retained.')
             return False
