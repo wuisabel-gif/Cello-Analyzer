@@ -48,14 +48,18 @@ class PracticeUI(unittest.TestCase):
 
     def test_file_dialog_cancel_and_background_import(self):
         window = PracticeWindow()
-        with patch('desktop_dashboard.ui.practice_window.QFileDialog.getOpenFileName', return_value=('', '')):
+        with patch('desktop_dashboard.ui.practice_window.QInputDialog.getText', return_value=('', False)):
             window.choose(0)
         self.assertEqual(window.takes, [])
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory)/'SYNTHETIC.wav'
             fixture(path)
-            with patch('desktop_dashboard.ui.practice_window.QFileDialog.getOpenFileName', return_value=(str(path), '')):
+            window.excerpt_start.setValue(1)
+            window.excerpt_duration.setValue(1.5)
+            with patch('desktop_dashboard.ui.practice_window.QInputDialog.getText', return_value=(str(path), True)):
                 window.choose(0)
+            self.assertEqual(window.worker.start_seconds, 1)
+            self.assertEqual(window.worker.duration_seconds, 1.5)
             self.assertFalse(window.buttons[0].isEnabled())
             loop = QEventLoop()
             window.worker.finished.connect(loop.quit)

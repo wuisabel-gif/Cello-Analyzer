@@ -109,3 +109,29 @@ Listen back in your own player; this increment does not provide playback.
 Before drawing musical conclusions, compare measurements against a trusted
 reference and test representative real cello recordings locally. Synthetic
 validation alone cannot prove pitch, vibrato, intonation or teaching accuracy.
+
+## Import MOV audio locally
+
+The practice importer accepts `.mov` as well as `.wav`. Click **Import take 1**
+or **Import take 2**, paste the local file path (absolute or `~/...`), and
+confirm. Cancel leaves existing takes unchanged. A simple path dialog avoids
+macOS accessibility crashes observed in Qt file-tree dialogs during testing.
+Before importing a MOV,
+set **MOV only • start** (seconds into the source) and **duration** (0.1–60 s;
+default 30 s). The selected interval is decoded from the first audio track,
+without playing audio or decoding video. The take label records its actual
+source interval. Charts start at each excerpt's zero; observation timestamps
+refer to the source. Near the source end the excerpt can be shorter than the
+requested duration. An empty/out-of-range excerpt produces an error.
+
+MOV support requires an already installed `ffmpeg` on PATH. The app does not
+install or download it. If it is missing, invalid, or cannot find an audio
+track, an explanatory error preserves the previous takes. Decoding is local,
+limited to 30 seconds of wall time and local-file protocols, and uses a private
+temporary PCM WAV that is removed after loading. Sources are never changed.
+WAV import retains its existing 60-second/32-MB limit; MOV files are limited
+to 2 GB. Excerpt controls do not trim WAVs.
+
+A musical performance with changing notes is outside sustained-note coaching.
+Treat coverage, large pitch changes and relative loudness as descriptive signals;
+they cannot distinguish note changes from octave errors or assess technique.

@@ -18,7 +18,9 @@ class PracticeCoach(unittest.TestCase):
             self.assertIn('0.28–2.72 s', text)
             self.assertIn('not an intonation or vibrato grade', text)
             self.assertIn('estimated trend changed +', text)
-            self.assertIn('File timing only', comparison([take, take]))
+            take.source_start = 12.5
+            self.assertIn('12.78–15.22 s (source time)', observation(take))
+            self.assertIn('Analyzed duration only', comparison([take, take]))
             take.duration += .75
             self.assertIn('0.75 s longer', comparison([analyze(path), take]))
 

@@ -1,7 +1,6 @@
 """Local sustained-note measurements. Heuristics, not a validated cello assessment."""
 from dataclasses import dataclass
-from pathlib import Path
-from desktop_dashboard.wav_import import load_wav
+from desktop_dashboard.media_import import load_audio
 import numpy as np
 
 
@@ -15,11 +14,12 @@ class Take:
     trend: np.ndarray
     variation: np.ndarray
     loudness: np.ndarray
+    source_start: float = 0.
 
 
 
-def analyze(path):
-    audio = load_wav(path)
+def analyze(path, start=0., duration=30.):
+    audio = load_audio(path, start, duration)
     rate, samples = audio.sample_rate, audio.samples
     # Resample to a bounded analysis rate; no device or network access.
     target = 8000
@@ -63,4 +63,4 @@ def analyze(path):
             trend[i] = np.median(segment)
     levels = np.array(levels)
     relative = levels - np.max(levels) if len(levels) else levels
-    return Take(audio.name, audio.duration, np.array(times), pitch, np.array(confidence), trend, pitch-trend, relative)
+    return Take(audio.name, audio.duration, np.array(times), pitch, np.array(confidence), trend, pitch-trend, relative, audio.source_start)
