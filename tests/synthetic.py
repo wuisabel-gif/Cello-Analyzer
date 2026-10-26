@@ -17,3 +17,12 @@ def fixture(path, kind='steady', rate=16000, gain=.3):
         wav.writeframes((np.clip(x,-1,1)*32767).astype('<i2').tobytes())
 
 
+if __name__ == '__main__':
+    import argparse
+    from pathlib import Path
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('output_directory', type=Path)
+    args = parser.parse_args()
+    args.output_directory.mkdir(parents=True, exist_ok=True)
+    for kind in ('steady', 'drift', 'vibrato', 'silence', 'noise', 'octave'):
+        fixture(args.output_directory/f'SYNTHETIC-{kind}.wav', kind)

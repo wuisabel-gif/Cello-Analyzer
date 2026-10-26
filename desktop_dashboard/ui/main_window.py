@@ -91,6 +91,8 @@ class MainWindow(QMainWindow):
 
         self.record_button = QPushButton("Start Recording")
         self.record_button.clicked.connect(self._toggle_recording)
+        self.practice_button = QPushButton("Compare local WAVs")
+        self.practice_button.clicked.connect(self._open_practice)
         self.export_button = QPushButton("Export CSV")
         self.export_button.clicked.connect(self._export_csv)
 
@@ -101,6 +103,7 @@ class MainWindow(QMainWindow):
             self.connect_button,
             self.record_button,
             self.export_button,
+            self.practice_button,
         ]:
             controls.addWidget(widget)
         controls.addStretch(1)
@@ -177,6 +180,13 @@ class MainWindow(QMainWindow):
             }
             """
         )
+
+    def _open_practice(self):
+        from desktop_dashboard.ui.practice_window import PracticeWindow
+        if not hasattr(self, "practice_window"):
+            self.practice_window = PracticeWindow()
+        self.practice_window.show()
+        self.practice_window.raise_()
 
     def _start_mock_source(self) -> None:
         self.active_source = "mock"

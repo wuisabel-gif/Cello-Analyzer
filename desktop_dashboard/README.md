@@ -62,3 +62,35 @@ Tests use generated synthetic signals, not real cello validation:
 ```bash
 .venv/bin/python -m unittest discover -s tests -v
 ```
+
+## Compare local takes
+
+Run the dashboard and select **Compare local WAVs**, or launch the isolated
+practice window (no mock or serial sources):
+
+```bash
+.venv/bin/python -m desktop_dashboard.ui.practice_window
+```
+
+Import take 1 and take 2 of the same sustained-note exercise. Reimporting
+replaces that slot; errors preserve previous takes. Analysis runs in a worker
+thread. Purple is take 1 and gold is take 2. Charts share seconds from file
+start and retain original durations; they do not stretch or infer musical
+alignment. No arbitrary-score timing analysis is provided. Plot gaps mean no
+supported measurement. For silence, the normalized RMS shape is flat and says
+nothing about absolute loudness. Files shorter than an 80 ms frame have no pitch.
+
+Generate optional, clearly labelled **synthetic** demonstration WAVs:
+
+```bash
+.venv/bin/python tests/synthetic.py /tmp/cello-synthetic
+```
+
+Run headless UI checks with:
+
+```bash
+QT_QPA_PLATFORM=offscreen .venv/bin/python -m unittest discover -s tests -v
+```
+
+The UI test saves `practice-preview.png` in the repository root for visual QA.
+Audio remains local; the practice window has no recording or network features.
