@@ -38,7 +38,7 @@ class PracticeUI(unittest.TestCase):
             for kind in ('silence', 'noise'):
                 fixture(path, kind)
                 self.assertTrue(window.import_take(1, path))
-                self.assertIn('0% of frames', window.observations.toPlainText())
+                self.assertIn('No reliable', window.observations.toPlainText())
             path = Path(directory)/'SYNTHETIC-vibrato.wav'
             fixture(path, 'vibrato', rate=44100)
             window.import_take(1, path)

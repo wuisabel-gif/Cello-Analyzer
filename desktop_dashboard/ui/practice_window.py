@@ -3,6 +3,7 @@ from PySide6.QtCore import QRectF, QPointF, QThread, Signal, Qt
 from PySide6.QtGui import QPainter, QPen, QPainterPath
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFileDialog, QTextEdit
 from desktop_dashboard.practice import analyze
+from desktop_dashboard.practice_coach import observation, comparison
 from desktop_dashboard.ui.widgets import ACCENT, ACCENT_ALT, TEXT, MUTED, SURFACE_ELEVATED
 
 
@@ -100,7 +101,8 @@ class PracticeWindow(QWidget):
             layout.addWidget(chart)
         self.observations = QTextEdit()
         self.observations.setReadOnly(True)
-        self.observations.setMaximumHeight(140)
+        self.observations.setMaximumHeight(180)
+        self.observations.setPlaceholderText("Local practice cues appear after import; no external AI is used.")
         layout.addWidget(self.observations)
         self.setStyleSheet('QWidget {background:#171717;color:#f3f1f8} QPushButton {background:#574064;padding:10px} QTextEdit {background:#232323}')
 
@@ -151,7 +153,7 @@ class PracticeWindow(QWidget):
             chart.takes = active
             chart.update()
         self.legend.setText('Purple: take 1 • Gold: take 2\n' + ' • '.join(f'Take {i+1}: {t.name} ({t.duration:.2f} s)' for i,t in enumerate(self.takes) if t))
-        self.observations.setPlainText('\n\n'.join(f'Take {i+1}: {(np.isfinite(t.pitch).mean() if len(t.pitch) else 0):.0%} of frames passed the periodicity gate.' for i,t in enumerate(self.takes) if t))
+        self.observations.setPlainText('\n\n'.join(f'Take {i+1}: {observation(t)}' for i,t in enumerate(self.takes) if t) + '\n\n' + comparison(self.takes))
         return True
 
 
