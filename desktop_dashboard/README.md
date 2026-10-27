@@ -135,3 +135,12 @@ to 2 GB. Excerpt controls do not trim WAVs.
 A musical performance with changing notes is outside sustained-note coaching.
 Treat coverage, large pitch changes and relative loudness as descriptive signals;
 they cannot distinguish note changes from octave errors or assess technique.
+
+## Synthetic pitch benchmark
+
+Run `.venv/bin/python -m benchmarks.yin_pitch --json-path /tmp/cello-yin-current.json`.
+See [benchmark definitions and limitations](../docs/yin-benchmark.md) for known
+frequencies, cents error, voiced coverage, silence/noise rejection, octave errors,
+transition exclusions and the baseline/improved reports. The detector checks
+for a substantially deeper full-period match when a strong overtone could cause
+an octave error; this is still a heuristic, not real cello accuracy validation.

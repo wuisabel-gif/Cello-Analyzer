@@ -57,3 +57,37 @@ signal set is small and deterministic. Improvements on it can overfit this set.
 A missing/inaudible fundamental can be inherently ambiguous. Synthetic results
 must not be presented as real cello accuracy, intonation grades, validated
 vibrato measures, physical-technique judgments or an AI teacher assessment.
+
+## Targeted improvement (new, unmerged detector branch)
+
+The [improved report](yin-improved.json) uses the same 21 signals and scoring
+rules. Changes are limited to candidate-period selection and the lower search
+boundary. The first accepted trough remains preferred for clean tones. A
+later candidate at approximately 2–4 times its period is chosen only when its
+parabolically refined difference score is below 20% of the first score and the
+first score exceeds 0.01. Comparing refined trough depths reduces integer-lag
+bias when the harmonic is near the top of the analysis range. The search also
+includes the trough and neighboring lags needed to estimate 55 Hz.
+
+| Metric on the same synthetic set | Baseline | Improved |
+| --- | --- | --- |
+| 55 Hz voiced coverage | 0% | 100% |
+| One-octave error frames | 282 | 0 |
+| Gross error frames (>50 cents) | 423 | 0 |
+| Harmonic-dominant p95 absolute error | 1205–1905 cents | 0.04–0.10 cents |
+| Silence / seeded noise / quiet-tone rejection | 100% | 100% |
+| A5 p95 absolute error | 10.23 cents | 10.23 cents |
+
+Regression tests first reproduced all three harmonic failures and the 55 Hz
+failure. Eight additional harmonic-mixture cases vary frequency, relative
+amplitudes and sample phase; each now has >95% coverage and p95 error below
+20 cents. These cases informed the implementation and are **not an independent
+held-out validation set**. The parabolic refinement and thresholds are heuristic,
+can still choose wrong periods on other signals, and do not resolve an absent
+fundamental. High-note interpolation error remains. The benchmark still excludes
+known transition neighborhoods and says nothing about onset accuracy.
+
+The original periodicity score remains a signal-matching measure, not confidence
+in correct musical pitch. This improvement does not justify stronger teaching
+claims or bypass the existing no-result gates. Broader synthetic stress cases
+and labelled real cello references remain necessary before accuracy claims.

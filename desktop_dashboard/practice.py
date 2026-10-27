@@ -18,6 +18,15 @@ class Take:
 
 
 
+def _refine_trough(values, index):
+    """Parabolic lag and minimum; compare troughs beyond integer-lag bias."""
+    left, middle, right = values[index-1:index+2]
+    curvature = left-2*middle+right
+    offset = .5*(left-right)/curvature if curvature else 0.
+    score = middle-(left-right)**2/(8*curvature) if curvature else middle
+    return index+1+offset, max(0., float(score))
+
+
 def analyze(path, start=0., duration=30.):
     audio = load_audio(path, start, duration)
     rate, samples = audio.sample_rate, audio.samples
@@ -40,16 +49,29 @@ def analyze(path, start=0., duration=30.):
         times.append((start + size/2) / target)
         pitch, conf = np.nan, 0.
         if rms > .003:
-            # Normalized squared difference (YIN-like); first strong local trough
-            # avoids selecting a later period / octave-down on clean tones.
-            lags = np.arange(1, 146)
+            # Normalized squared difference (YIN-like), with an initial short
+            # period and a conservative check for stronger full-period matches.
+            lags = np.arange(1, int(np.ceil(target/55))+2)
             diff = np.array([np.sum((x[:-lag]-x[lag:])**2) for lag in lags])
             cmnd = diff * lags / np.maximum(np.cumsum(diff), 1e-15)
-            candidates = [k for k in range(7, 144) if cmnd[k] < .15 and cmnd[k] <= cmnd[k-1] and cmnd[k] < cmnd[k+1]]
+            candidates = [k for k in range(7, len(cmnd)-1) if cmnd[k] < .15 and cmnd[k] <= cmnd[k-1] and cmnd[k] < cmnd[k+1]]
             if candidates:
                 k = candidates[0]
-                denom = cmnd[k-1] - 2*cmnd[k] + cmnd[k+1]
-                lag = k+1 + (.5*(cmnd[k-1]-cmnd[k+1])/denom if denom else 0)
+                # A strong overtone can cross the first-trough threshold before
+                # the fundamental. Prefer the earliest integer-multiple period
+                # only when it gives a much deeper match; do not chase arbitrary
+                # later troughs (which would octave-down clean sine tones).
+                first_lag, first_score = _refine_trough(cmnd, k)
+                if first_score > .01:
+                    for candidate in candidates[1:]:
+                        candidate_lag, candidate_score = _refine_trough(cmnd, candidate)
+                        ratio = candidate_lag/first_lag
+                        multiple = round(ratio)
+                        if (2 <= multiple <= 4 and abs(ratio-multiple) < .1
+                                and candidate_score < .2*first_score):
+                            k = candidate
+                            break
+                lag, _ = _refine_trough(cmnd, k)
                 conf = float(1-cmnd[k])
                 pitch = 1200*np.log2((target/lag)/220)
         pitches.append(pitch)
